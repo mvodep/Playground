@@ -123,7 +123,7 @@ namespace PgsqlToGherkinTable
                 if (type == "timestamp without time zone" && column.Value != null)
                 {
                     // ISO 8601
-                    result[column.Key] = DateTime.Parse(column.Value.ToString()).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+                    result[column.Key] = DateTime.Parse(column.Value.ToString()).ToString("yyyy-MM-ddTHH:mm:ssZ");
                 }
                 else if (type == "timestamp with time zone" && column.Value != null)
                 {
