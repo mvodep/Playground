@@ -1,0 +1,9 @@
+spring:
+  main:
+    web-application-type: none
+  kafka:
+    bootstrap-servers:localhost: 9092
+  properties:
+    schema.registry.url: http://localhost:8081
+    consumer:
+      auto-offset-reset: earliest

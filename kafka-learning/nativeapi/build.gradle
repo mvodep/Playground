@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'com.google.protobuf' version '0.9.1'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url "https://packages.confluent.io/maven/" }
+}
+
+dependencies {
+    implementation 'com.google.protobuf:protobuf-java:3.21.9'
+
+    // Logging
+    implementation 'org.slf4j:slf4j-api:2.0.5'
+    implementation 'ch.qos.logback:logback-classic:1.4.5'
+
+    // Kafka
+    implementation 'io.confluent:kafka-protobuf-serializer:7.3.0'
+    implementation 'org.apache.kafka:kafka-clients:3.3.1'
+
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.19.6'
+    }
+}
