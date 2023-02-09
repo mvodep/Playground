@@ -1,12 +1,12 @@
-﻿using OrderManagement.Invoicing;
+﻿using OrderManagement.OrderProcessing;
 
 namespace OrderManagement.OrderGateway
 {
     internal class Program
     {
         static void Main(string[] args)
-        {            
-            Console.WriteLine(Invoice.Foo());
+        {
+            Console.WriteLine(OrderProcessor.Foo());
         }
     }
 }

@@ -36,7 +36,7 @@ namespace ArchitectureAnalyzer
             using (var workspace = MSBuildWorkspace.Create())
             {
                 // Print message for WorkspaceFailed event to help diagnosing project load failures.
-                workspace.WorkspaceFailed += (o, e) => Console.WriteLine(e.Diagnostic.Message);
+                workspace.WorkspaceFailed += (o, e) => Console.WriteLine(e.Diagnostic.Message);                
 
                 var solutionPath = @"..\..\..\..\..\OrderManagement\OrderManagement.sln";
                 Console.WriteLine($"Loading solution '{solutionPath}'");
@@ -45,12 +45,28 @@ namespace ArchitectureAnalyzer
                 var solution = await workspace.OpenSolutionAsync(solutionPath, new ConsoleProgressReporter());
                 Console.WriteLine($"Finished loading solution '{solutionPath}'");
 
+                //await PrintErrorsAsync(solution);
+
                 Console.WriteLine(new string('*', 60));
 
-                // Analysis
-                await ProjectDependeciesAnalyzer.CheckDependenciesAsync(solution);
+                // Analysis structure
+                ProjectDependeciesAnalyzer.CheckDependenciesOrAssert(solution, "OrderManagement.OrderGateway", new [] { "OrderManagement.OrderProcessing" });
+
+                var result = ProjectDependeciesAnalyzer.GeneratePlantUmlOfComponents(solution);
+
+                ProjectStructureAnalyzer.CheckDefaultNamespaceEqualsProjectNameOrAssert(solution);
+                
+                await ProjectStructureAnalyzer.CheckAllSymbolsHaveDefaultNamespaceOrAssert(solution);
+                await ProjectStructureAnalyzer.CheckSymbolsInSubnamespaceAreInternalOrAssert(solution);
+
+                ProjectStructureAnalyzer.CheckAllProjectsHaveMarkdownDocumentationOrAssert(solution);
+
+                // Analysis metrics
+
             }
-        }        
+
+            Console.ReadKey();
+        }
 
         private static VisualStudioInstance SelectVisualStudioInstance(VisualStudioInstance[] visualStudioInstances)
         {
@@ -88,6 +104,6 @@ namespace ArchitectureAnalyzer
 
                 Console.WriteLine($"{loadProgress.Operation,-15} {loadProgress.ElapsedTime,-15:m\\:ss\\.fffffff} {projectDisplay}");
             }
-        }
+        }        
     }
 }

@@ -8,7 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OrderManagement.Invoicing\OrderManagement.Invoicing.csproj" />
+    <None Remove="InterfaceDescription.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrderManagement.OrderProcessing\OrderManagement.OrderProcessing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="InterfaceDescription.md" />
   </ItemGroup>
 
 </Project>
