@@ -4,9 +4,9 @@ namespace OrderManagement.OrderProcessing
 {
     public class OrderProcessor
     {
-        public static bool Foo()
+        public static void Generate()
         {
-            return Class1.Foo();
+            Class1.GetPrimesInRange(10);
         }
     }
 }

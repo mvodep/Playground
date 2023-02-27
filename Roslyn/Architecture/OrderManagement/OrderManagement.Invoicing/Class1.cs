@@ -2,9 +2,6 @@
 {
     public class Invoice
     {
-        public static string Foo()
-        {
-            return "ll";
-        }
+        
     }
 }

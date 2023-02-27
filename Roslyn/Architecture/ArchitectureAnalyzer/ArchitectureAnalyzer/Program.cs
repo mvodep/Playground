@@ -62,7 +62,7 @@ namespace ArchitectureAnalyzer
                 ProjectStructureAnalyzer.CheckAllProjectsHaveMarkdownDocumentationOrAssert(solution);
 
                 // Analysis metrics
-
+                await Metrics.MaximalLinesOfCodePerMethodOrAssertAsync(solution, 20);
             }
 
             Console.ReadKey();

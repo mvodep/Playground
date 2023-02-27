@@ -18,7 +18,7 @@ namespace ArchitectureAnalyzer
             {
                 var compilation = await project.GetCompilationAsync();
 
-                var publicSymbols = GetNamedTypeSymbols(compilation)
+                var publicSymbols = SemanticModelHelper.GetNamedTypeSymbols(compilation)
                     .Where(symbol => IsProjectSourceSymbolByNamespace(symbol, project))
                     .Where(symbol => symbol.DeclaredAccessibility == Accessibility.Public);
 
@@ -41,7 +41,7 @@ namespace ArchitectureAnalyzer
             {
                 var compilation = await project.GetCompilationAsync();
 
-                var sourceBasedSymbols = GetNamedTypeSymbols(compilation).Where(symbol => IsProjectSourceSymbolByFileLocation(symbol, project));
+                var sourceBasedSymbols = SemanticModelHelper.GetNamedTypeSymbols(compilation).Where(symbol => IsProjectSourceSymbolByFileLocation(symbol, project));
 
                 foreach (var symbol in sourceBasedSymbols)
                 {
@@ -77,30 +77,6 @@ namespace ArchitectureAnalyzer
                 if (File.Exists(Path.Combine(Path.GetDirectoryName(project.FilePath), "InterfaceDescription.md")) == false)
                 {
                     throw new AssertException($"Every project needs an 'InterfaceDescription.md' in root. Project: '{project.Name}'");
-                }
-            }
-        }
-
-        private static IEnumerable<INamedTypeSymbol> GetNamedTypeSymbols(Compilation compilation)
-        {
-            var stack = new Stack<INamespaceSymbol>();
-
-            stack.Push(compilation.GlobalNamespace);
-
-            while (stack.Count > 0)
-            {
-                var @namespace = stack.Pop();
-
-                foreach (var member in @namespace.GetMembers())
-                {
-                    if (member is INamespaceSymbol memberAsNamespace)
-                    {
-                        stack.Push(memberAsNamespace);
-                    }
-                    else if (member is INamedTypeSymbol memberAsNamedTypeSymbol)
-                    {
-                        yield return memberAsNamedTypeSymbol;
-                    }
                 }
             }
         }

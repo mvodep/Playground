@@ -6,7 +6,7 @@ namespace OrderManagement.OrderGateway
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(OrderProcessor.Foo());
+            OrderProcessor.Generate();
         }
     }
 }
