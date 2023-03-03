@@ -1,0 +1,12 @@
+{
+    "name": "kafka-connect-redis",
+    "config": {
+        "name": "kafka-connect-redis",
+        "connector.class": "org.example.SimpleRedisSinkConnector",
+        "topics": "measurements",
+        "value.converter": "io.confluent.connect.avro.AvroConverter",
+        "value.converter.schema.registry.url": "http://schema-registry:8081",
+        "value.converter.schemas.enable": "false",
+        "tasks.max": "1"
+    }
+}

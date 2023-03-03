@@ -1,0 +1,56 @@
+{
+    "namespace": "org.examples.measurement",
+    "type": "record",
+    "name": "Measurement",
+    "fields": [
+        {
+            "name": "id",
+            "type": {
+                "type": "record",
+                "name": "IdentifierRecord",
+                "fields": [
+                    {
+                        "name": "id",
+                        "type": {
+                            "type": "int",
+                            "arg.properties": {
+                                "range": {
+                                    "min": 1,
+                                    "max": 5
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "type": {
+                            "type": "string",
+                            "arg.properties": {
+                                "options": [
+                                    "VIE",
+                                    "SZG",
+                                    "INN",
+                                    "GRZ",
+                                    "LNZ",
+                                    "KLU"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "value",
+            "type": {
+                "type": "double",
+                "arg.properties": {
+                    "range": {
+                        "min": 26,
+                        "max": 30
+                    }
+                }
+            }
+        }
+    ]
+}

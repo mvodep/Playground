@@ -1,0 +1,17 @@
+{
+  "name": "datagen-measurements",
+  "config": {
+    "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
+    "kafka.topic": "measurements",
+    "schema.string": "{\"namespace\":\"org.examples.measurement\",\"type\":\"record\",\"name\":\"Measurement\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"record\",\"name\":\"IdentifierRecord\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"int\",\"arg.properties\":{\"range\":{\"min\":1,\"max\":5}}}},{\"name\":\"location\",\"type\":{\"type\":\"string\",\"arg.properties\":{\"options\":[\"VIE\",\"SZG\",\"INN\",\"GRZ\",\"LNZ\",\"KLU\"]}}}]}},{\"name\":\"value\",\"type\":{\"type\":\"double\",\"arg.properties\":{\"range\":{\"min\":26,\"max\":30}}}}]}",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+    "value.converter.schemas.enable": "false",
+    "transforms": "generatekey",
+    "transforms.generatekey.type": "org.example.MeasurementValueToKey",    
+    "min.interval": 500,
+    "max.interval": 1000,
+    "iterations": 10000,
+    "tasks.max": "1"
+  }
+}
