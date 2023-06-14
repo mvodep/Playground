@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS playground.vehicle_mileages CASCADE;
 
-CREATE TABLE vehicle_mileages (
+CREATE TABLE playground.vehicle_mileages (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     vehicle_id int NOT NULL,
     mileage int NOT NULL,
@@ -50,8 +50,8 @@ CREATE TRIGGER trigger_insert_update_vehicle_mileages_increasing_check
     FOR EACH ROW
     EXECUTE PROCEDURE playground.vehicle_mileages_increasing_check ();
 
-INSERT INTO vehicle_mileages (vehicle_id, mileage, reported_at) VALUES (1, 10, '2023-05-01'), (1, 10, '2023-05-02'), (1, 250, '2023-05-05');
-INSERT INTO vehicle_mileages (vehicle_id, mileage, reported_at) VALUES (2, 350, '2023-05-07');
+INSERT INTO playground.vehicle_mileages (vehicle_id, mileage, reported_at) VALUES (1, 10, '2023-05-01'), (1, 10, '2023-05-02'), (1, 250, '2023-05-05');
+INSERT INTO playground.vehicle_mileages (vehicle_id, mileage, reported_at) VALUES (2, 350, '2023-05-07');
 
 -- T1    
 BEGIN;
@@ -60,12 +60,12 @@ COMMIT;
     
 -- T2
 BEGIN;
-INSERT INTO vehicle_mileages (vehicle_id, mileage, reported_at) VALUES (1, 300, '2023-05-08');
+INSERT INTO playground.vehicle_mileages (vehicle_id, mileage, reported_at) VALUES (1, 300, '2023-05-08');
 COMMIT;
 
 -- T1 
 BEGIN;
-UPDATE vehicle_mileages set vehicle_id = 1 WHERE reported_at = '2023-05-07' AND vehicle_id = 2;
+UPDATE playground.vehicle_mileages set vehicle_id = 1 WHERE reported_at = '2023-05-07' AND vehicle_id = 2;
 COMMIT;
   
 -- T2
@@ -73,4 +73,4 @@ BEGIN;
 INSERT INTO vehicle_mileages (vehicle_id, mileage, reported_at) VALUES (1, 300, '2023-05-08');
 COMMIT;
    
-SELECT * FROM vehicle_mileages WHERE vehicle_id = 1 ORDER BY reported_at;
+SELECT * FROM playground.vehicle_mileages WHERE vehicle_id = 1 ORDER BY reported_at;
