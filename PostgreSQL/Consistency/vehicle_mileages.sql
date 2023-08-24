@@ -1,10 +1,12 @@
+CREATE SCHEMA IF NOT EXISTS playground;
+
 DROP TABLE IF EXISTS playground.vehicle_mileages CASCADE;
 
 CREATE TABLE playground.vehicle_mileages (
-    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    vehicle_id int NOT NULL,
-    mileage int NOT NULL,
-    reported_at date NOT NULL,
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    vehicle_id BIGINT NOT NULL,
+    mileage INTEGER NOT NULL,
+    reported_at DATE NOT NULL,
     UNIQUE (vehicle_id, reported_at)
 );
 
@@ -14,7 +16,6 @@ CREATE OR REPLACE FUNCTION playground.vehicle_mileages_increasing_check ()
 BEGIN
     -- Gain lock for all verhicles to ensure consistency. If another transaction holds a row lock, this one will block
     PERFORM
-        1
     FROM
         playground.vehicle_mileages
     WHERE
@@ -55,7 +56,7 @@ INSERT INTO playground.vehicle_mileages (vehicle_id, mileage, reported_at) VALUE
 
 -- T1    
 BEGIN;
-UPDATE vehicle_mileages SET mileage = 350 WHERE reported_at = '2023-05-05' AND vehicle_id = 1;
+UPDATE playground.vehicle_mileages SET mileage = 350 WHERE reported_at = '2023-05-05' AND vehicle_id = 1;
 COMMIT;
     
 -- T2
@@ -70,7 +71,7 @@ COMMIT;
   
 -- T2
 BEGIN;
-INSERT INTO vehicle_mileages (vehicle_id, mileage, reported_at) VALUES (1, 300, '2023-05-08');
+INSERT INTO playground.vehicle_mileages (vehicle_id, mileage, reported_at) VALUES (1, 300, '2023-05-08');
 COMMIT;
    
 SELECT * FROM playground.vehicle_mileages WHERE vehicle_id = 1 ORDER BY reported_at;
